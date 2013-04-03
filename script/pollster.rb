@@ -12,7 +12,7 @@ class Pollster
 
     options = { 1 => :create_poll, 2 => :create_question,
           3 => :answer_question, 4 => :display_poll_responses,
-          5 => :display_user_responses }
+          5 => :display_user_responses, 6 => :delete_question }
 
     userinput = ""
     until userinput == "exit"
@@ -23,12 +23,25 @@ class Pollster
       puts "3. Answer a poll question"
       puts "4. See poll results"
       puts "5. See all your poll responses"
-      puts "6. Exit"
+      puts "6. Delete a poll question"
+      puts "7. Exit"
 
       userinput = gets.chomp
-      break if userinput == "6"
+      break if userinput == "7"
       self.send( options[userinput.to_i] )
     end
+  end
+
+  def self.delete_question
+    chosen_poll = self.select_poll
+    puts "Please choose question to delete:"
+    questions = Question.where(:poll_id => chosen_poll)
+    questions.each_with_index do |question, index|
+      puts "#{index}: #{question.text}"
+    end
+    choice = gets.chomp.to_i
+    questions[choice].destroy
+    puts "Deleted question, responses and all choices"
   end
 
   def self.display_user_responses
