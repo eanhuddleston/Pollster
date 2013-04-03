@@ -14,6 +14,10 @@ class User < ActiveRecord::Base
     end
     @user
   end
+
+  def get_all_responses
+    self.polls.includes(:responses, :questions)
+  end
 end
 
 # SELECT polls*

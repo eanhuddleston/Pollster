@@ -11,7 +11,8 @@ class Pollster
     self.login
 
     options = { 1 => :create_poll, 2 => :create_question,
-          3 => :answer_question, 4 => :display_poll_responses }
+          3 => :answer_question, 4 => :display_poll_responses,
+          5 => :display_user_responses }
 
     userinput = ""
     until userinput == "exit"
@@ -21,22 +22,43 @@ class Pollster
       puts "2. Add question"
       puts "3. Answer a poll question"
       puts "4. See poll results"
-      puts "5. Exit"
+      puts "5. See all your poll responses"
+      puts "6. Exit"
 
       userinput = gets.chomp
-      break if userinput == "5"
+      break if userinput == "6"
       self.send( options[userinput.to_i] )
     end
   end
 
-  def self.display_poll_responses
-    chosen_poll = self.select_poll
-    results = Poll.get_results(chosen_poll)
+  def self.display_user_responses
+    choices_hash = self.create_choices_hash
+    polls = @user.get_all_responses
+    polls.each do |poll|
+      puts "Poll: #{poll.title}"
+      poll.questions.each do |question|
+        puts "Question: #{question.text}"
+        question.responses.each do |response|
+          puts "#{choices_hash[response.choice_id]}"
+        end
+      end
+    end
+  end
+
+  def self.create_choices_hash
     choices = Choice.all
     choices_hash = {}
     choices.each do |choice|
       choices_hash[choice.id] = choice.value
     end
+
+    choices_hash
+  end
+
+  def self.display_poll_responses
+    chosen_poll = self.select_poll
+    results = Poll.get_results(chosen_poll)
+    choices_hash = self.create_choices_hash
     results.each do |result|
       counts = result.responses.group(:choice_id).count(:user_id)
       puts "#{result.text}:"
