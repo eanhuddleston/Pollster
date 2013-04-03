@@ -24,6 +24,5 @@ class CreateTables < ActiveRecord::Migration
       t.integer :question_id
       t.string :value
     end
-
   end
 end
