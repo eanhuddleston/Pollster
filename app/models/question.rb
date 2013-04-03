@@ -18,3 +18,5 @@ end
 # SELECT choises.*
 # FROM choises
 # WHERE question_id = Question.id
+
+# REV: May need :dependent => :destroy

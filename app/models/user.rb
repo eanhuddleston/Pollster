@@ -32,3 +32,5 @@ end
 # FROM polls JOIN questions
 # ON poll.id = questions.poll_id
 # WHERE poll.user_id = User.id
+
+# REV: Some of the UI/script could probably live here instead.

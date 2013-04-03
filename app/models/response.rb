@@ -31,3 +31,5 @@ end
 # SELECT user.*
 # FROM users
 # WHERE responses.user_id = users.id
+
+# REV: Looks great!
