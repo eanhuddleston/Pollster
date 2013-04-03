@@ -1,5 +1,7 @@
 class CreateTables < ActiveRecord::Migration
   def change
+
+    # REV you should define some SQL validations here.
     create_table :users do |t|
       t.string :name
     end

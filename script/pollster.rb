@@ -1,5 +1,7 @@
+# REV Alot of the methods you're calling in here belong in the models, not the script
+
 class Pollster
-  @user = nil
+  @user = nil # REV is this a class variable??? Why define it here?
 
   def self.login
     puts "Please enter your username:"
@@ -81,7 +83,7 @@ class Pollster
     end
   end
 
-  def self.answer_question
+  def self.answer_question # REV this is a long method. Consider splitting into two
     chosen_poll = self.select_poll
     puts "Please choose question:"
     questions = Question.where(:poll_id => chosen_poll)
